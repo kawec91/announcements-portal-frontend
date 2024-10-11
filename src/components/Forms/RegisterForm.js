@@ -40,6 +40,7 @@ const RegisterForm = () => {
             },
           }
         );
+
         console.log("Register response", res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
