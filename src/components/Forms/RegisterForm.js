@@ -26,12 +26,20 @@ const RegisterForm = () => {
       formData.password !== ""
     ) {
       try {
-        const res = await axios.post(`${apiUrl}/users/new`, formData, {
-          headers: {
-            "Content-Type": "application/json",
-            // Authorization: "Bearer your-token-here",
-          },
-        });
+        const res = await axios.post(
+          `${
+            process.env.F_APP_ENV === "dev"
+              ? process.env.API_URI
+              : process.env.API_PROD_URI
+          }/users/new`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              // Authorization: "Bearer your-token-here",
+            },
+          }
+        );
         console.log("Register response", res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
