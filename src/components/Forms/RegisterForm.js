@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BlackButton from "../Buttons/BlackButton";
 import axios from "axios";
-import { apiUrl } from "../../constants/apiUrl";
+// import { apiUrl } from "../../constants/apiUrl";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
