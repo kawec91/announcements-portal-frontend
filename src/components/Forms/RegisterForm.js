@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BlackButton from "../Buttons/BlackButton";
 import axios from "axios";
-// import { apiUrl } from "../../constants/apiUrl";
+import { apiUrl } from "../../constants/apiUrl";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +17,11 @@ const RegisterForm = () => {
     });
   };
 
+  const apiBaseUri =
+    process.env.F_APP_ENV === "dev"
+      ? process.env.API_URI
+      : process.env.API_PROD_URI;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("click");
@@ -26,21 +31,12 @@ const RegisterForm = () => {
       formData.password !== ""
     ) {
       try {
-        const res = await axios.post(
-          `${
-            process.env.F_APP_ENV === "dev"
-              ? process.env.API_URI
-              : process.env.API_PROD_URI
-          }/users/new`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              // Authorization: "Bearer your-token-here",
-            },
-          }
-        );
-
+        const res = await axios.post(`${apiBaseUri}/users/new`, formData, {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: "Bearer your-token-here",
+          },
+        });
         console.log("Register response", res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
