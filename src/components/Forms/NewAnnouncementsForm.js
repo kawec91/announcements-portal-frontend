@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import AuthContext from "../Auth/AuthProvider";
 
 const NewAnnouncementsForm = () => {
+  const { user } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     title: "",
     salary: "",
     location: "",
+    description: "",
+    image_path: "",
+    created_by: user.id,
+    lastmodify_by: user.id,
   });
   const handleChanges = (e) => {
     setFormData({
@@ -32,18 +38,23 @@ const NewAnnouncementsForm = () => {
       />
       <input
         type="file"
-        name="image"
+        name="image_path"
         //onChange={(e) => handleChanges(e)}
         className={inputStyle}
       />
-      <select defaultValue={"none"} className={`px-2 ${inputStyle}`}>
+      <select
+        defaultValue={"none"}
+        className={`px-2 ${inputStyle}`}
+        name="location"
+        onChange={(e) => handleChanges(e)}
+      >
         <option value={"ul. Mostowa 36, 87-100 Toruń"}>Toruń</option>
         <option value={"ul. Poznańska 8, 85-129 Bydgoszcz"}>Bydgoszcz</option>
       </select>
       <textarea
-        type="file"
-        name="image"
-        //onChange={(e) => handleChanges(e)}
+        type="text"
+        name="description"
+        onChange={(e) => handleChanges(e)}
         className={`${inputStyle} h-64`}
       ></textarea>
       <button className="py-2 px-6 bg-black text-white">Zapisz</button>
