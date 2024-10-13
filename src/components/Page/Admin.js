@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import NavAdmin from "../NavAdmin";
-import { getUser } from "../../constants/getDataFromServer";
+import AuthContext from "../Auth/AuthProvider";
 
 const Admin = () => {
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
-  console.log(error);
-  useEffect(() => {
-    getUser(setError, setUser);
-  }, []);
+  const { user } = useContext(AuthContext);
   return (
     <>
       {user?.role === "admin" ? (

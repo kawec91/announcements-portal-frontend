@@ -1,5 +1,8 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import { getUser } from "../../constants/getDataFromServer";
 
 // Create the AuthContext
 const AuthContext = createContext();
@@ -9,14 +12,21 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("token") || null
   );
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   // Function to handle login
   const login = async (token) => {
     localStorage.setItem("token", token);
     setAuthToken(token);
-    const decodedUser = parseJwt(token);
-    setUser(decodedUser);
+
+    try {
+      // Fetch user data from the backend after logging in
+      await getUser(setError, setUser);
+    } catch (err) {
+      console.error("Error fetching user on login:", err);
+      setError("Login failed.");
+    }
   };
 
   // Function to handle logout
@@ -27,37 +37,24 @@ export const AuthProvider = ({ children }) => {
     navigate("/login");
   }, [navigate]);
 
-  // Function to parse JWT token to get user info
-  const parseJwt = (token) => {
-    try {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-          .join("")
-      );
-      return JSON.parse(jsonPayload);
-    } catch (error) {
-      return null;
-    }
-  };
-
-  // Check if token is valid on app load
+  // Check if token is valid on app load and fetch user data from the backend
   useEffect(() => {
-    if (authToken) {
-      const decodedUser = parseJwt(authToken);
-      if (decodedUser) {
-        setUser(decodedUser);
-      } else {
-        logout(); // Token is invalid
+    const fetchUserData = async () => {
+      if (authToken) {
+        try {
+          await getUser(setError, setUser);
+        } catch (error) {
+          console.error("Error during user fetching:", error);
+          logout(); // If the token is invalid, log out the user
+        }
       }
-    }
+    };
+
+    fetchUserData();
   }, [authToken, logout]);
 
   return (
-    <AuthContext.Provider value={{ authToken, user, login, logout }}>
+    <AuthContext.Provider value={{ authToken, user, login, logout, error }}>
       {children}
     </AuthContext.Provider>
   );

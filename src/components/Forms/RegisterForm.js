@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BlackButton from "../Buttons/BlackButton";
 import axios from "axios";
 import { apiUrl } from "../../constants/apiUrl";
@@ -9,6 +10,7 @@ const RegisterForm = () => {
     email: "",
     password: "",
   });
+  const nav = useNavigate();
 
   const handleChanges = (e) => {
     setFormData({
@@ -18,8 +20,6 @@ const RegisterForm = () => {
   };
 
   const apiBaseUri = apiUrl; // Use the imported apiUrl from apiUrl.js
-
-  //console.log(process.env.API_PROD_URI);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +39,8 @@ const RegisterForm = () => {
         console.log("Register response", res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        nav("/login");
       }
     } else {
       console.log("Pola formularza nie mogą być puste");
