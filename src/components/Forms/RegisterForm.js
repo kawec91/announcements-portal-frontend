@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BlackButton from "../Buttons/BlackButton";
 import axios from "axios";
-//import { apiUrl } from "../../constants/apiUrl";
+import { apiUrl } from "../../constants/apiUrl";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -17,10 +17,9 @@ const RegisterForm = () => {
     });
   };
 
-  const apiBaseUri =
-    process.env.F_APP_ENV === "dev"
-      ? process.env.API_URI
-      : process.env.API_PROD_URI;
+  const apiBaseUri = apiUrl; // Use the imported apiUrl from apiUrl.js
+
+  //console.log(process.env.API_PROD_URI);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
