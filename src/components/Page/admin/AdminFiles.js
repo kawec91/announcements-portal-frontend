@@ -1,15 +1,16 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { getUser } from "../../../constants/getDataFromServer";
+import React, { useContext, useState } from "react";
+//import { getUser } from "../../../constants/getDataFromServer";
 import { apiUrl } from "../../../constants/apiUrl";
+import AuthContext from "../../Auth/AuthProvider";
 
 const AdminFiles = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
+
+  const { authToken, user } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,8 +19,6 @@ const AdminFiles = () => {
       setMessage("Please choose a file.");
       return;
     }
-
-    await getUser(setError, setUser);
 
     if (!user) {
       setMessage("User not authenticated.");
@@ -38,7 +37,7 @@ const AdminFiles = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in localStorage
+            Authorization: `Bearer ${authToken}`,
           },
         }
       );
@@ -50,8 +49,6 @@ const AdminFiles = () => {
       setMessage("Failed to upload file.");
     }
   };
-
-  console.log("AF:", error);
 
   return (
     <div>

@@ -16,6 +16,8 @@ const AnnouncmenetsList = () => {
             title={item.title}
             id={item.id}
             key={`landing-item-card-${item.id}`}
+            img={item.image_path}
+            salary={item.salary}
           />
         );
       })}

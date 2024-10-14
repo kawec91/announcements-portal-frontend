@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import AdminEditButton from "../../Buttons/AdminEditButton";
 import AdminDeleteButton from "../../Buttons/AdminDeleteButton";
 import AdminPreviewButton from "../../Buttons/AdminPreviewButton";
 import { Link } from "react-router-dom";
+import { deleteDataOnServer } from "../../../constants/getDataFromServer";
+import AuthContext from "../../Auth/AuthProvider";
 
 const AdminAnnouncementRow = ({ id, title, salary, createdAt }) => {
+  const { authToken } = useContext(AuthContext);
   const handleEditClick = () => {};
 
-  const handleDeleteClick = () => {};
+  const handleDeleteClick = async () => {
+    try {
+      deleteDataOnServer(`announcements/${id}`, authToken);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      window.location.reload();
+    }
+  };
 
   const hadnlePreviewClick = () => {
     //Works, open link in new tab

@@ -32,12 +32,12 @@ export const updateDataOnServer = async (connectionPath, data) => {
   }
 };
 
-export const deleteDataOnServer = async (connectionPath) => {
+export const deleteDataOnServer = async (connectionPath, token) => {
   try {
     const res = await axios.delete(`${apiUrl}/${connectionPath}`, {
       headers: {
         "Content-Type": "application/json",
-        // Authorization: "Bearer your-token-here",
+        Authorization: `Bearer ${token}`,
       },
     });
     console.log(`${connectionPath}`, res.data);
@@ -90,5 +90,19 @@ export const getUser = async (errorSetter, userSetter) => {
     errorSetter(
       err.response ? err.response.data.message : "Error fetching user data"
     );
+  }
+};
+
+export const postDataOnServer = async (connectionPath, token, data) => {
+  try {
+    const res = await axios.post(`${apiUrl}/${connectionPath}`, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(`${connectionPath}`, res.data);
+  } catch (err) {
+    console.error("Error fetching data:", err);
   }
 };
