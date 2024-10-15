@@ -28,7 +28,7 @@ const AplicationForm = ({ aplicationName }) => {
     if (file) {
       formPayload.append("file_path", file);
     }
-
+    setFormData(formPayload);
     try {
       await postDataOnServerWithFile(`aplications/new`, authToken, formPayload);
     } catch (error) {

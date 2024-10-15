@@ -6,7 +6,6 @@ import {
   Transforms,
   Element as SlateElement,
   Text,
-  Node,
 } from "slate";
 import { withHistory } from "slate-history";
 import Toolbar from "./Toolbar";
