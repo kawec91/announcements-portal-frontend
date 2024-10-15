@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import AuthContext from "../Auth/AuthProvider";
 import axios from "axios";
 import { apiUrl } from "../../constants/apiUrl";
+import MyEditor from "../MyEditor";
 
 const NewAnnouncementsForm = () => {
   const { user, authToken } = useContext(AuthContext);
@@ -60,7 +61,7 @@ const NewAnnouncementsForm = () => {
 
   return (
     <form
-      className="flex flex-col items-center justify-center gap-4"
+      className="flex flex-col items-center justify-center gap-4 max-h-screen "
       onSubmit={handleSubmit}
     >
       <input
@@ -97,13 +98,14 @@ const NewAnnouncementsForm = () => {
         <option value={"ul. Mostowa 36, 87-100 Toruń"}>Toruń</option>
         <option value={"ul. Poznańska 8, 85-129 Bydgoszcz"}>Bydgoszcz</option>
       </select>
-      <textarea
-        type="text"
-        name="description"
-        onChange={(e) => handleChanges(e)}
-        className={`${inputStyle} h-64`}
-        required
-      ></textarea>
+      <div className={`${inputStyle} min-h-64 overflow-auto`}>
+        <MyEditor
+          setDescription={(desc) =>
+            setFormData({ ...formData, description: desc })
+          }
+        />
+      </div>
+
       <button className="py-2 px-6 bg-black text-white">Zapisz</button>
     </form>
   );

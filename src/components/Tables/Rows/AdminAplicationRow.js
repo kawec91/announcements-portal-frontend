@@ -5,6 +5,7 @@ import AdminEditButton from "../../Buttons/AdminEditButton";
 import AdminDownloadButton from "../../Buttons/AdminDownloadButton";
 import AdminInviteUserButton from "../../Buttons/AdminInviteUserButton";
 import AdminHireButton from "../../Buttons/AdminHireButton";
+import { apiImageUrl } from "../../../constants/apiUrl";
 
 const AdminAplicationRow = ({
   number,
@@ -55,8 +56,6 @@ const AdminAplicationRow = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleDownloadClick = () => {};
-
   const handleInviteUserClick = () => {
     formData.aplicatoin_status = "inprogress";
     try {
@@ -77,6 +76,10 @@ const AdminAplicationRow = ({
     } finally {
       window.location.reload();
     }
+  };
+
+  const clickInfo = () => {
+    console.log("clk");
   };
 
   useEffect(() => {
@@ -165,7 +168,10 @@ const AdminAplicationRow = ({
         <td>[ Zwolnij ] TODO </td>
       ) : (
         <td className="flex items-center gap-4">
-          <AdminDownloadButton clickAction={handleDownloadClick} />
+          <a href={`${apiImageUrl}${data.file_path}`} download target="blank">
+            <AdminDownloadButton clickAction={clickInfo} />
+          </a>
+
           <AdminInviteUserButton clickAction={handleInviteUserClick} />
           <AdminRejectButton clickAction={handleRejectClick} />
         </td>

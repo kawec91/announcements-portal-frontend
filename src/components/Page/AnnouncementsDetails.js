@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDataFromServer } from "../../constants/getDataFromServer";
 import AnnouncementShortDescription from "../AnnouncementShortDescription";
+import AplicationForm from "../Forms/AplicationForm";
 
 const AnnouncementsDetails = () => {
   const [data, setData] = useState([]);
@@ -21,13 +22,16 @@ const AnnouncementsDetails = () => {
         />
         <hr className="bg-white h-1 w-full my-2" />
         <div
+          className="py-2 px-6"
           dangerouslySetInnerHTML={{
-            __html: data?.description || "",
+            __html: data.description || "",
           }}
         ></div>
 
         <hr className="bg-white h-1 w-full my-2" />
-        <div>Attach file form</div>
+        <div className="py-2 px-2 flex items-center justify-center w-full">
+          <AplicationForm aplicationName={data.title}/>
+        </div>
       </div>
     </div>
   );

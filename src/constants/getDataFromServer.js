@@ -106,3 +106,16 @@ export const postDataOnServer = async (connectionPath, token, data) => {
     console.error("Error fetching data:", err);
   }
 };
+export const postDataOnServerWithFile = async (connectionPath, token, data) => {
+  try {
+    const res = await axios.post(`${apiUrl}/${connectionPath}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(`${connectionPath}`, res.data);
+  } catch (err) {
+    console.error("Error fetching data:", err);
+  }
+};

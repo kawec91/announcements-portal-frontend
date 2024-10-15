@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 
 const Main = () => {
   return (
-    <main className="h-[calc(100vh_-_150px)]">
+    <main className="h-[calc(100vh_-_150px)] overflow-auto">
       <Outlet />
       <Toaster />
     </main>
