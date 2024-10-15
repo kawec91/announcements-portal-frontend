@@ -27,6 +27,8 @@ const NewAnnouncementsForm = () => {
     setFile(e.target.files[0]);
   };
 
+  const apiBaseUri = apiUrl;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,7 +42,7 @@ const NewAnnouncementsForm = () => {
 
     try {
       const response = await axios.post(
-        `${apiUrl}/announcements/new`,
+        `${apiBaseUri}/announcements/new`,
         formPayload,
         {
           headers: {
